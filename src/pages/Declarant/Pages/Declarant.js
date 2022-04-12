@@ -18,27 +18,26 @@ import { getAuth } from "firebase/auth";
 import NotFound from "../../404NotFound/NotFound";
 
 import VerticalTabs from "../../../Components/DeclarantForm/FormNav";
+import { AuthProvider } from "../../../Firebase/Auth";
 
 const Declarant = () => {
   // variable to check if user is signed in
   const [isUserSignedIn, setIsUserSignedIn] = useState(true);
-  const app = initializeApp(firebaseConfig)
+  const app = initializeApp(firebaseConfig);
   const auth = getAuth();
   auth.onAuthStateChanged((user) => {
     if (user) {
       // if user is signed in
-      console.log('signed in as ',user.displayName)
+      console.log("signed in as ", user.displayName);
       return setIsUserSignedIn(true);
-      
     }
     //if user is not signed in
-    console.log('not signed in')
+    console.log("not signed in");
     return setIsUserSignedIn(false);
   });
 
   //if user is signed in
   if (isUserSignedIn === true) {
-
     //home page
     return (
       <>
@@ -46,7 +45,7 @@ const Declarant = () => {
         <div className="container">
           <Sidebar />
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="*" element={<Home />} />
             <Route path="/apply" element={<VerticalTabs />} />
             {/* <Route path="/user/:userId" element={<User />} /> */}
 

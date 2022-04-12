@@ -5,7 +5,7 @@ import { getdeclarations, currentUid } from "../../Firebase/firebaseFunctions";
 import { initializeApp } from "firebase/app";
 import { getAuth, signOut } from "firebase/auth";
 
-export default function WidgetLg() {
+export default function WidgetLg(props) {
   const Button = ({ type }) => {
     return <button className={"widgetLgButton " + type}>{type}</button>;
   };
@@ -18,14 +18,10 @@ export default function WidgetLg() {
   ];
 
   const [declarations, setDeclarations] = useState([]);
-  const [userId, setUserId] = useState()
   const [count,setCount] = useState(0)
   
-  const auth = getAuth()
-  auth.onAuthStateChanged((user) => {
-    console.log(user.uid)
-    setUserId(user.uid)
-  });
+  const {setApproved,approved} = props
+
 
   const {
     data: userData,
@@ -36,19 +32,26 @@ export default function WidgetLg() {
   const itemList = [];
   
 let id
-  useEffect(() => {
+let arr= []
+  useEffect(() => { 
      id = currentUid()
     if(userData){
         setDeclarations(userData)
-        setCount(count+1)
+        userData.forEach(e => {
+          console.log(e.status)
+          setApproved(approved+1)
+          if(e.status == 'Pending')
+          {
+            console.log(e.status)
+            //setApproved(approved+1)
+          }
+        })
     }else{
       console.log('no data')
       mutateUserId(id)
     }
 
   }, [userData,id]);
-
-  console.log("data ", count);
   
   declarations.map(({idNumber,employerName,appointment,status})=> {
     itemList.push(

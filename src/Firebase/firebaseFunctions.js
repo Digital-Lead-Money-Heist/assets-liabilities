@@ -1,7 +1,7 @@
 import {initializeApp} from "firebase/app"
 import {getAuth, signOut} from "firebase/auth"
 import firebaseConfig from "./config"
-import { collection,doc,addDoc,getFirestore,collectionGroup, getDocs } from "firebase/firestore"
+import { collection,doc,addDoc,getFirestore,collectionGroup, getDocs,where } from "firebase/firestore"
 
 const app = initializeApp(firebaseConfig)
 const db = getFirestore()
@@ -39,15 +39,22 @@ export function logOut() {
     })
 }
 
-let count =0
+export const pendingCounter = (number) => {
+    return number +1
+}
+
+let countPending 
 export async function getdeclarations(identifier){
     const query = await getDocs(collectionGroup(db,identifier))
     let data = []
 
     query.forEach((doc)=>{
         data.push(doc.data())
-        console.log(data)
+        if(doc.data().status == 'Pending'){
+            pendingCounter(countPending)
+        }
+        
     })
-    console.log('declarations',data)
     return data
 }
+

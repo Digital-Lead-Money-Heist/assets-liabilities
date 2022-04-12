@@ -1,7 +1,8 @@
 import "./featuredInfo.css";
 import { ArrowDownward, ArrowUpward } from "@mui/icons-material";
 
-export default function FeaturedInfo() {
+export default function FeaturedInfo(props) {
+  const {approved} = props
   return (
     <div className="featured">
       <div className="featuredItem">
@@ -15,9 +16,9 @@ export default function FeaturedInfo() {
         {/* <span className="featuredSub">Compared to last month</span> */}
       </div> 
       <div className="featuredItem">
-        <span className="featuredTitle">Declined Declarations</span>
+        <span className="featuredTitle">Pending Declarations</span>
         <div className="featuredMoneyContainer">
-          <span className="featuredMoney">0</span>
+          <span className="featuredMoney">{approved}</span>
           {/* <span className="featuredMoneyRate">
             -1.4 <ArrowDownward className="featuredIcon negative"/>
           </span>*/}

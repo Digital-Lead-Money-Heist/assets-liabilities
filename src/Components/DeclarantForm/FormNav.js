@@ -347,6 +347,7 @@ export default function VerticalTabs() {
     const submitDeclaration= async () => {
     try{
       await addDoc(ref,{
+          status:'Pending',
           lastName:declareSurname,
           firstName:declareFirstName,
           dateOfBirth:declareDoB,

@@ -17,7 +17,7 @@ export default function Topbar() {
     auth.signOut();
   };
 
-  const url = auth.currentUser.photoURL
+  const url = auth?.currentUser?.photoURL
   return (
     <div className="topbar">
       <div className="topbarWrapper">
