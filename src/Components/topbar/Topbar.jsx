@@ -8,6 +8,7 @@ import Logo from './logo.png'
 import propic from './Kk18.png'
 
 import { getAuth } from "firebase/auth";
+import { auth } from "../../Firebase/firebaseFunctions";
 
 export default function Topbar() {
   // const app = initializeApp(firebaseConfig);
@@ -15,6 +16,8 @@ export default function Topbar() {
     const auth = getAuth();
     auth.signOut();
   };
+
+  const url = auth.currentUser.photoURL
   return (
     <div className="topbar">
       <div className="topbarWrapper">
@@ -25,17 +28,17 @@ export default function Topbar() {
           </span>
         </div>
         <div className="topRight">
-          <div className="topbarIconContainer">
+          {/* <div className="topbarIconContainer">
             <NotificationsNone />
             <span className="topIconBadge">2</span>
-          </div>
+          </div> */}
           <div className="topbarIconContainer">
             <LogoutIcon onClick={signOut}/>
           </div>
           {/* <div className="topbarIconContainer">
             <Settings />
           </div> */}
-          <img src={propic} alt="" className="topAvatar" />
+          <img src={url} alt="" className="topAvatar" />
         </div>
       </div>
     </div>

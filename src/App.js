@@ -9,12 +9,16 @@ import firebaseConfig from "./Firebase/config";
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import Declarant from "./pages/Declarant/Pages/Declarant";
+import { AuthProvider } from "./Firebase/Auth";
 
 
 function App() {
   return (
     <div className="App">
-      <Declarant />
+      <AuthProvider>
+        <Declarant />
+      </AuthProvider>
+      
     </div>
   );
 }

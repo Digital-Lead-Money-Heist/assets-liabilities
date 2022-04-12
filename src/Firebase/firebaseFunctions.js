@@ -5,6 +5,7 @@ import { collection,doc,addDoc,getFirestore,collectionGroup, getDocs } from "fir
 
 const app = initializeApp(firebaseConfig)
 const db = getFirestore()
+export const auth = getAuth()
 
 export function currentUserName () {
     try{
@@ -38,12 +39,14 @@ export function logOut() {
     })
 }
 
+let count =0
 export async function getdeclarations(identifier){
     const query = await getDocs(collectionGroup(db,identifier))
     let data = []
 
     query.forEach((doc)=>{
         data.push(doc.data())
+        console.log(data)
     })
     console.log('declarations',data)
     return data

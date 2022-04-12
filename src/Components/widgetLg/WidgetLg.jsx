@@ -4,17 +4,6 @@ import "./widgetLg.css";
 import { getdeclarations, currentUid } from "../../Firebase/firebaseFunctions";
 import { initializeApp } from "firebase/app";
 import { getAuth, signOut } from "firebase/auth";
-import firebaseConfig from "../../Firebase/config";
-import {
-  collection,
-  doc,
-  addDoc,
-  getFirestore,
-  collectionGroup,
-  getDocs,
-  onSnapshot,
-  getDoc
-} from "firebase/firestore";
 
 export default function WidgetLg() {
   const Button = ({ type }) => {
@@ -25,10 +14,12 @@ export default function WidgetLg() {
     { name: "Stillwell Jacob", date: "2022-03-05", type: "Pending" },
     { name: "Stillwell Jacob", date: "2022-03-28", type: "Pending" },
    { name: " stillwell", date: "2022-03-06", type: "Pending" },
+   { name: " thabo", date: "2022-02-23", type: "Pending" }
   ];
 
   const [declarations, setDeclarations] = useState([]);
   const [userId, setUserId] = useState()
+  const [count,setCount] = useState(0)
   
   const auth = getAuth()
   auth.onAuthStateChanged((user) => {
@@ -36,29 +27,42 @@ export default function WidgetLg() {
     setUserId(user.uid)
   });
 
-  
+  const {
+    data: userData,
+    mutate: mutateUserId,
+    isError: mutateGetError,
+  } = useMutation("getUser", getdeclarations, { retry: 2 });
 
   const itemList = [];
   
- 
+let id
+  useEffect(() => {
+     id = currentUid()
+    if(userData){
+        setDeclarations(userData)
+        setCount(count+1)
+    }else{
+      console.log('no data')
+      mutateUserId(id)
+    }
 
+  }, [userData,id]);
 
-
-  console.log("data ", declarations);
+  console.log("data ", count);
   
-  initState.forEach((item) => {
+  declarations.map(({idNumber,employerName,appointment,status})=> {
     itemList.push(
-      <tr className="widgetLgTr">
+      <tr key={idNumber} className="widgetLgTr">
         <td className="widgetLgUser">
-          <span className="widgetLgName">{item.name}</span>
+          <span className="widgetLgName">{employerName}</span>
         </td>
-        <td className="widgetLgDate">{item.date}</td>
+        <td className="widgetLgDate">{appointment}</td>
         <td className="widgetLgStatus">
-          <Button type={item.type} />
+          <Button type={status} />
         </td>
       </tr>
-    );
-  });
+    )
+  })
 
   return (
     <div className="widgetLg">
